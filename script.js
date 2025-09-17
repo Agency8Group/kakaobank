@@ -178,7 +178,7 @@ class KakaoMessageSystem {
         this.messagesContainer = document.getElementById('kakao-messages');
         this.messageQueue = [];
         this.isDisplaying = false;
-        this.maxMessages = 3; // 최대 3개 메시지 동시 표시
+        this.maxMessages = 1; // 최대 1개 메시지만 동시 표시
         this.activeMessages = []; // 현재 활성화된 메시지들
         
         // 직원 이름들 (더 많이 추가)
@@ -282,6 +282,11 @@ class KakaoMessageSystem {
     }
 
     generateMessage() {
+        // 이미 메시지가 표시 중이면 새 메시지 생성하지 않음
+        if (this.activeMessages.length >= this.maxMessages) {
+            return;
+        }
+        
         const template = this.messageTemplates[Math.floor(Math.random() * this.messageTemplates.length)];
         const messageText = template.messages[Math.floor(Math.random() * template.messages.length)];
         const employeeName = this.employeeNames[Math.floor(Math.random() * this.employeeNames.length)];
@@ -289,11 +294,6 @@ class KakaoMessageSystem {
         
         // 템플릿 변수 치환
         const finalMessage = messageText.replace('{project}', projectName);
-        
-        // 최대 3개까지만 표시하고, 초과시 가장 오래된 메시지 제거
-        if (this.activeMessages.length >= this.maxMessages) {
-            this.removeOldestMessage();
-        }
         
         this.showMessage(employeeName, finalMessage, template.type);
     }
