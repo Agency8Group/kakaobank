@@ -52,8 +52,15 @@
 </head>
 <body class="font-kakao bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white h-screen overflow-hidden relative">
     <div class="h-screen flex flex-col justify-center items-center relative px-5 pt-20 sm:pt-0">
-        <!-- 잔액 표시 영역 (카카오뱅크 스타일 카드) -->
-        <div class="text-center z-10 mb-8 w-full max-w-sm sm:max-w-md">
+        <!-- 고정된 메신저 영역 (절대 위치로 고정) -->
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-full max-w-sm sm:max-w-md" style="margin-top: -80px; height: 160px; pointer-events: none;">
+            <div id="kakao-messages" style="display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; overflow: hidden;">
+                <!-- 카톡 메시지들이 여기에 동적으로 추가됩니다 (고정 영역 내에서만) -->
+            </div>
+        </div>
+
+        <!-- 잔액 표시 영역 (카카오뱅크 스타일 카드) - 고정 위치 -->
+        <div class="text-center z-10 mb-6 w-full max-w-sm sm:max-w-md" style="position: relative; top: 0;">
             <div class="bg-gradient-to-r from-gray-800 to-gray-700 rounded-3xl p-6 shadow-2xl border border-gray-600">
                 <div class="text-gray-300 text-sm mb-3">지금 계좌 잔액</div>
                 <div class="text-kakao-yellow text-2xl sm:text-3xl font-bold break-keep drop-shadow-[0_0_15px_rgba(255,215,0,0.4)]" id="balance-amount">
@@ -64,7 +71,7 @@
         </div>
 
         <!-- 실시간 입금 현황 -->
-        <div class="text-center z-10 mb-6 w-full max-w-sm sm:max-w-md">
+        <div class="text-center z-10 mb-8 w-full max-w-sm sm:max-w-md">
             <div class="text-gray-400 text-xs mb-1">오늘 입금된 건수</div>
             <div class="text-green-400 text-sm font-medium" id="deposit-counter">
                 입금 <span id="deposit-count">0</span>건 완료
@@ -72,7 +79,7 @@
         </div>
 
         <!-- 메인 입금 메시지 영역 -->
-        <div class="relative text-center z-10 mb-16 sm:mb-24 w-full max-w-sm sm:max-w-md">
+        <div class="relative text-center z-10 mb-12 sm:mb-16 w-full max-w-sm sm:max-w-md">
             <div class="income-message opacity-100 transition-opacity duration-1000 ease-in-out" id="message1">
                 <div class="text-gray-300 text-base sm:text-lg mb-2 break-keep">지윤환님께</div>
                 <div class="text-kakao-yellow text-3xl sm:text-4xl md:text-5xl font-bold my-4 break-keep drop-shadow-[0_0_20px_rgba(255,215,0,0.3)]">₩5,000,000</div>
@@ -90,21 +97,17 @@
             </div>
         </div>
 
-        <!-- 직원 카톡 메시지 영역 -->
-        <div class="fixed bottom-32 sm:bottom-36 left-0 right-0 z-10 px-4" id="kakao-messages" style="display: flex; flex-direction: column-reverse; align-items: center;">
-            <!-- 카톡 메시지들이 여기에 동적으로 추가됩니다 (아래에서 위로 쌓임) -->
-        </div>
 
         <!-- 하단 고정 메시지 -->
-        <div class="fixed bottom-16 sm:bottom-20 left-0 right-0 text-center z-10 px-5">
+        <div class="fixed bottom-20 sm:bottom-24 left-0 right-0 text-center z-10 px-5">
             <div class="text-gray-500 text-sm sm:text-base leading-relaxed font-light break-keep">
                 모든 건 가장 완벽한 순간에 찾아온다.
             </div>
         </div>
 
         <!-- 티커 메시지 -->
-        <div class="fixed bottom-0 left-0 right-0 h-10 sm:h-12 overflow-hidden bg-black/30 backdrop-blur-md border-t border-white/10 z-10">
-            <div class="inline-block whitespace-nowrap animate-ticker text-xs sm:text-sm text-gray-400 leading-10 sm:leading-12 pl-full">
+        <div class="fixed bottom-0 left-0 right-0 h-12 sm:h-14 overflow-hidden bg-black/40 backdrop-blur-md border-t border-white/20 z-10">
+            <div class="inline-block whitespace-nowrap animate-ticker text-xs sm:text-sm text-gray-300 leading-12 sm:leading-14 pl-full">
                 커피 마시며 일하고, 돈은 흐르듯 들어오는 삶 — 이미 실행 중
             </div>
         </div>

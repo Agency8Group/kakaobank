@@ -191,64 +191,75 @@ class KakaoMessageSystem {
             '라미영', '마동훈', '백서현', '사미정', '아준호'
         ];
         
-        // 회사 이름들 (더 많이 추가)
-        this.companyNames = [
-            '삼성전자', 'LG전자', '네이버', '카카오', '현대자동차',
-            'SK하이닉스', '포스코', 'KT', 'CJ', '롯데',
-            '현대모비스', '기아', '한국전력', 'LG화학', 'SK텔레콤',
-            '삼성바이오로직스', '현대중공업', 'LG생활건강', 'SK이노베이션', '한화솔루션',
-            '삼성SDI', 'LG에너지솔루션', '현대글로비스', 'SK스퀘어', 'LG디스플레이',
-            '삼성물산', '현대건설', 'SK건설', 'LG유플러스', 'KT&G'
+        // 프로젝트/고객사 이름들 (현실적인 표현)
+        this.projectNames = [
+            'A사 자동화 프로젝트', 'B사 ERP 시스템', 'C사 웹사이트 구축', 'D사 데이터 분석', 'E사 고객센터',
+            'F사 주문관리 시스템', 'G사 재고관리', 'H사 예약시스템', 'I사 설문조사', 'J사 뉴스수집',
+            'K사 스케줄러', 'L사 대시보드', 'M사 API 연동', 'N사 AI 챗봇', 'O사 모바일앱',
+            'P사 결제시스템', 'Q사 회원관리', 'R사 상품관리', 'S사 배송추적', 'T사 통계분석',
+            'U사 이메일 자동화', 'V사 파일처리', 'W사 실시간 모니터링', 'X사 백업시스템', 'Y사 보안강화'
         ];
         
-        // 메시지 템플릿들 (일상적이지만 뇌해킹하는 메시지들)
+        // 메시지 템플릿들 (현실적이고 뇌해킹하는 메시지들)
         this.messageTemplates = [
             {
-                type: 'daily_work',
+                type: 'project_updates',
                 messages: [
-                    '대표님, 오늘도 {company} 출근하셨어요?',
-                    '대표님, {company}에서 또 바쁘게 일하고 계시죠?',
-                    '대표님, {company} 프로젝트 잘 진행되고 있나요?',
-                    '대표님, {company}에서 오늘도 수고 많으셨어요',
-                    '대표님, {company} 팀원들 모두 대표님 기다리고 있어요',
-                    '대표님, {company}에서 대표님 없으면 안 된다고 하네요',
-                    '대표님, {company} 고객들이 대표님 만나고 싶어해요'
+                    '대표님, {project} 완료되었습니다!',
+                    '대표님, {project} 고객이 만족해하시네요',
+                    '대표님, {project} 추가 요청 들어왔어요',
+                    '대표님, {project} 성과가 정말 좋습니다',
+                    '대표님, {project} 다음 단계 진행할까요?',
+                    '대표님, {project} 고객이 또 다른 프로젝트 문의했어요',
+                    '대표님, {project} 덕분에 고객사 업무 효율 90% 향상됐대요'
                 ]
             },
             {
-                type: 'identity_reminder',
+                type: 'business_success',
                 messages: [
-                    '대표님, 거기서 프리랜서인데 기업 대표인 건 알아요?',
-                    '대표님, 사실 진짜 대표님이잖아요 ㅋㅋ',
-                    '대표님, 프리랜서라고 하지만 실제로는 CEO잖아요',
-                    '대표님, {company}에서도 대표님으로 불리잖아요',
-                    '대표님, 프리랜서는 겉모습이고 진짜는 대표님',
-                    '대표님, {company} 직원들도 대표님이라고 부르잖아요',
+                    '대표님, 오늘도 프로젝트 수주 성공!',
+                    '대표님, 또 새로운 고객사 계약 체결됐어요',
+                    '대표님, 월 구독료 정산 완료했습니다',
+                    '대표님, 고객 만족도 조사 결과 97%예요',
+                    '대표님, 업무 자동화로 고객사 시간 87% 절약됐어요',
+                    '대표님, AI 솔루션 성과가 대박이에요',
+                    '대표님, 프리랜서라고 하지만 실제로는 CEO잖아요'
+                ]
+            },
+            {
+                type: 'team_communication',
+                messages: [
+                    '대표님, 팀원들이 대표님 기다리고 있어요',
+                    '대표님, 오늘도 수고하셨어요!',
+                    '대표님, 커피 한 잔 하세요',
+                    '대표님, 점심 맛있게 드셨어요?',
+                    '대표님, 주말에도 프로젝트 하시나요?',
+                    '대표님, 고객사에서 대표님 만나고 싶어해요',
                     '대표님, 어디 가든 대표님 맞잖아요'
                 ]
             },
             {
-                type: 'success_reminder',
+                type: 'technical_updates',
                 messages: [
-                    '대표님, 오늘도 성공하셨어요!',
-                    '대표님, 또 돈 들어왔네요 ㅋㅋ',
-                    '대표님, 계속 잘 되고 있어요',
-                    '대표님, 오늘도 대박이에요',
-                    '대표님, 돈이 계속 들어오네요',
-                    '대표님, 성공하는 게 당연해요',
-                    '대표님, 오늘도 부자 되셨어요'
+                    '대표님, Python 자동화 스크립트 완성됐어요',
+                    '대표님, 웹 대시보드 업데이트 완료',
+                    '대표님, AI API 연동 성공했습니다',
+                    '대표님, 데이터 분석 결과 나왔어요',
+                    '대표님, 시스템 최적화 작업 완료',
+                    '대표님, 보안 강화 업데이트 적용됐어요',
+                    '대표님, 24시간 자동화 시스템 가동 중입니다'
                 ]
             },
             {
-                type: 'casual_chat',
+                type: 'client_feedback',
                 messages: [
-                    '대표님, 오늘도 수고하셨어요!',
-                    '대표님, 커피 한 잔 하세요',
-                    '대표님, 오늘 날씨 좋네요',
-                    '대표님, 점심 맛있게 드셨어요?',
-                    '대표님, 오늘도 좋은 하루 보내세요',
-                    '대표님, 퇴근 후에도 바쁘시겠어요',
-                    '대표님, 주말에도 일하시나요?'
+                    '대표님, 고객사에서 정말 만족해하시네요',
+                    '대표님, 업무 효율이 엄청나게 좋아졌대요',
+                    '대표님, 다른 부서에서도 문의 들어왔어요',
+                    '대표님, 고객사 임원진이 대표님 만나고 싶어해요',
+                    '대표님, 성과 보고서에 대표님 솔루션 언급됐어요',
+                    '대표님, 경쟁사 대비 압도적 성능이래요',
+                    '대표님, 고객사에서 연봉 인상 요청했어요 ㅋㅋ'
                 ]
             }
         ];
@@ -274,10 +285,10 @@ class KakaoMessageSystem {
         const template = this.messageTemplates[Math.floor(Math.random() * this.messageTemplates.length)];
         const messageText = template.messages[Math.floor(Math.random() * template.messages.length)];
         const employeeName = this.employeeNames[Math.floor(Math.random() * this.employeeNames.length)];
-        const companyName = this.companyNames[Math.floor(Math.random() * this.companyNames.length)];
+        const projectName = this.projectNames[Math.floor(Math.random() * this.projectNames.length)];
         
         // 템플릿 변수 치환
-        const finalMessage = messageText.replace('{company}', companyName);
+        const finalMessage = messageText.replace('{project}', projectName);
         
         // 최대 3개까지만 표시하고, 초과시 가장 오래된 메시지 제거
         if (this.activeMessages.length >= this.maxMessages) {
@@ -289,42 +300,44 @@ class KakaoMessageSystem {
 
     showMessage(senderName, message, type) {
         const messageElement = document.createElement('div');
-        messageElement.className = 'kakao-message mb-3 max-w-xs mx-auto';
+        messageElement.className = 'kakao-message mb-2 max-w-xs mx-auto';
         
-        // 메시지 타입에 따른 색상
-        let bgColor = 'bg-blue-500';
-        if (type === 'daily_work') {
-            bgColor = 'bg-blue-500';
-        } else if (type === 'identity_reminder') {
-            bgColor = 'bg-purple-500';
-        } else if (type === 'success_reminder') {
-            bgColor = 'bg-green-500';
-        } else if (type === 'casual_chat') {
-            bgColor = 'bg-gray-600';
+        // 메시지 타입에 따른 색상 (조화로운 색상 팔레트)
+        let bgColor = 'bg-blue-600';
+        if (type === 'project_updates') {
+            bgColor = 'bg-blue-600';
+        } else if (type === 'business_success') {
+            bgColor = 'bg-emerald-600';
+        } else if (type === 'team_communication') {
+            bgColor = 'bg-slate-600';
+        } else if (type === 'technical_updates') {
+            bgColor = 'bg-indigo-600';
+        } else if (type === 'client_feedback') {
+            bgColor = 'bg-amber-600';
         }
         
         messageElement.innerHTML = `
-            <div class="flex items-end space-x-2">
-                <div class="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center text-xs font-bold text-white">
+            <div class="flex items-end space-x-3">
+                <div class="w-8 h-8 bg-gradient-to-br from-gray-500 to-gray-700 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-md">
                     ${senderName.charAt(0)}
                 </div>
                 <div class="flex flex-col">
-                    <div class="text-xs text-gray-400 mb-1">${senderName}</div>
-                    <div class="${bgColor} text-white px-4 py-2 rounded-2xl rounded-bl-md text-sm break-keep shadow-lg">
+                    <div class="text-xs text-gray-300 mb-1 font-medium">${senderName}</div>
+                    <div class="${bgColor} text-white px-4 py-3 rounded-2xl rounded-bl-md text-sm break-keep shadow-lg">
                         ${message}
                     </div>
                 </div>
             </div>
         `;
         
-        // 메시지가 아래에서 위로 올라오는 애니메이션 (진짜 메시지처럼)
+        // 메시지가 위에서 아래로 내려오는 애니메이션 (잔액 위에 누적)
         messageElement.style.opacity = '0';
-        messageElement.style.transform = 'translateY(100px) scale(0.8)';
+        messageElement.style.transform = 'translateY(-50px) scale(0.8)';
         messageElement.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
         
         this.messagesContainer.appendChild(messageElement);
         
-        // 아래에서 위로 올라오는 애니메이션
+        // 위에서 아래로 내려오는 애니메이션
         setTimeout(() => {
             messageElement.style.opacity = '1';
             messageElement.style.transform = 'translateY(0) scale(1)';
@@ -343,10 +356,10 @@ class KakaoMessageSystem {
     }
     
     removeMessage(messageElement) {
-        // 페이드 아웃 애니메이션
+        // 페이드 아웃 애니메이션 (위로 올라가며 사라짐)
         messageElement.style.transition = 'all 0.3s ease-out';
         messageElement.style.opacity = '0';
-        messageElement.style.transform = 'translateY(-20px) scale(0.9)';
+        messageElement.style.transform = 'translateY(-30px) scale(0.9)';
         
         setTimeout(() => {
             if (messageElement.parentNode) {
