@@ -178,17 +178,27 @@ class KakaoMessageSystem {
         this.messagesContainer = document.getElementById('kakao-messages');
         this.messageQueue = [];
         this.isDisplaying = false;
+        this.maxMessages = 3; // 최대 3개 메시지 동시 표시
+        this.activeMessages = []; // 현재 활성화된 메시지들
         
-        // 직원 이름들
+        // 직원 이름들 (더 많이 추가)
         this.employeeNames = [
             '김민수', '이지은', '박준호', '최수진', '정현우',
-            '한소영', '강태현', '윤서연', '임동혁', '조미래'
+            '한소영', '강태현', '윤서연', '임동혁', '조미래',
+            '송지훈', '배수정', '오현석', '신예린', '권도현',
+            '홍지민', '서준영', '문소희', '안태민', '노하늘',
+            '전민호', '유서아', '남궁진', '도예진', '구본우',
+            '라미영', '마동훈', '백서현', '사미정', '아준호'
         ];
         
-        // 회사 이름들
+        // 회사 이름들 (더 많이 추가)
         this.companyNames = [
             '삼성전자', 'LG전자', '네이버', '카카오', '현대자동차',
-            'SK하이닉스', '포스코', 'KT', 'CJ', '롯데'
+            'SK하이닉스', '포스코', 'KT', 'CJ', '롯데',
+            '현대모비스', '기아', '한국전력', 'LG화학', 'SK텔레콤',
+            '삼성바이오로직스', '현대중공업', 'LG생활건강', 'SK이노베이션', '한화솔루션',
+            '삼성SDI', 'LG에너지솔루션', '현대글로비스', 'SK스퀘어', 'LG디스플레이',
+            '삼성물산', '현대건설', 'SK건설', 'LG유플러스', 'KT&G'
         ];
         
         // 메시지 템플릿들
@@ -199,7 +209,10 @@ class KakaoMessageSystem {
                     '대표님, {company}에서 계약 요청 왔습니다!',
                     '대표님, {company} 프로젝트 문의 들어왔어요',
                     '대표님, {company}에서 협업 제안 왔습니다',
-                    '대표님, {company} 계약서 검토 요청입니다'
+                    '대표님, {company} 계약서 검토 요청입니다',
+                    '대표님, {company} 신규 프로젝트 제안서 도착',
+                    '대표님, {company} 긴급 계약 논의 요청',
+                    '대표님, {company} 파트너십 제안 왔습니다'
                 ]
             },
             {
@@ -208,7 +221,10 @@ class KakaoMessageSystem {
                     '대표님, 오늘 계약 성과금 입금했습니다!',
                     '대표님, 이번 달 성과금 정산 완료했습니다',
                     '대표님, 프로젝트 완료 보너스 입금했습니다',
-                    '대표님, 계약 수수료 정산 완료했습니다'
+                    '대표님, 계약 수수료 정산 완료했습니다',
+                    '대표님, 월말 인센티브 지급 완료',
+                    '대표님, 특별 성과 보상금 입금',
+                    '대표님, 분기별 보너스 정산 완료'
                 ]
             },
             {
@@ -217,7 +233,10 @@ class KakaoMessageSystem {
                     '대표님, 오늘도 수고하셨습니다!',
                     '대표님, 내일 미팅 준비 완료했습니다',
                     '대표님, 고객 만족도 조사 결과 좋습니다',
-                    '대표님, 새로운 프로젝트 제안서 작성했습니다'
+                    '대표님, 새로운 프로젝트 제안서 작성했습니다',
+                    '대표님, 주간 보고서 작성 완료했습니다',
+                    '대표님, 고객사 피드백 매우 긍정적입니다',
+                    '대표님, 팀 전체 성과가 좋습니다'
                 ]
             }
         ];
@@ -226,17 +245,17 @@ class KakaoMessageSystem {
     }
 
     init() {
-        // 5초 후부터 메시지 시작
+        // 3초 후부터 메시지 시작 (더 빠르게)
         setTimeout(() => {
             this.startMessageSystem();
-        }, 5000);
+        }, 3000);
     }
 
     startMessageSystem() {
-        // 8-15초마다 새로운 메시지 생성
+        // 3-6초마다 새로운 메시지 생성 (더 자주)
         setInterval(() => {
             this.generateMessage();
-        }, 8000 + Math.random() * 7000);
+        }, 3000 + Math.random() * 3000);
     }
 
     generateMessage() {
@@ -247,6 +266,11 @@ class KakaoMessageSystem {
         
         // 템플릿 변수 치환
         const finalMessage = messageText.replace('{company}', companyName);
+        
+        // 최대 3개까지만 표시하고, 초과시 가장 오래된 메시지 제거
+        if (this.activeMessages.length >= this.maxMessages) {
+            this.removeOldestMessage();
+        }
         
         this.showMessage(employeeName, finalMessage, template.type);
     }
@@ -277,30 +301,52 @@ class KakaoMessageSystem {
             </div>
         `;
         
-        // 애니메이션 효과
+        // 메시지가 아래에서 위로 올라오는 애니메이션 (진짜 메시지처럼)
         messageElement.style.opacity = '0';
-        messageElement.style.transform = 'translateY(20px)';
+        messageElement.style.transform = 'translateY(100px) scale(0.8)';
+        messageElement.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        
         this.messagesContainer.appendChild(messageElement);
         
-        // 페이드 인 애니메이션
+        // 아래에서 위로 올라오는 애니메이션
         setTimeout(() => {
-            messageElement.style.transition = 'all 0.3s ease-out';
             messageElement.style.opacity = '1';
-            messageElement.style.transform = 'translateY(0)';
-        }, 100);
+            messageElement.style.transform = 'translateY(0) scale(1)';
+        }, 50);
         
-        // 5초 후 페이드 아웃
+        // 활성 메시지 목록에 추가
+        this.activeMessages.push({
+            element: messageElement,
+            timestamp: Date.now()
+        });
+        
+        // 8초 후 페이드 아웃 (더 오래 머물도록)
         setTimeout(() => {
-            messageElement.style.transition = 'all 0.3s ease-out';
-            messageElement.style.opacity = '0';
-            messageElement.style.transform = 'translateY(-20px)';
+            this.removeMessage(messageElement);
+        }, 8000);
+    }
+    
+    removeMessage(messageElement) {
+        // 페이드 아웃 애니메이션
+        messageElement.style.transition = 'all 0.3s ease-out';
+        messageElement.style.opacity = '0';
+        messageElement.style.transform = 'translateY(-20px) scale(0.9)';
+        
+        setTimeout(() => {
+            if (messageElement.parentNode) {
+                messageElement.parentNode.removeChild(messageElement);
+            }
             
-            setTimeout(() => {
-                if (messageElement.parentNode) {
-                    messageElement.parentNode.removeChild(messageElement);
-                }
-            }, 300);
-        }, 5000);
+            // 활성 메시지 목록에서 제거
+            this.activeMessages = this.activeMessages.filter(msg => msg.element !== messageElement);
+        }, 300);
+    }
+    
+    removeOldestMessage() {
+        if (this.activeMessages.length > 0) {
+            const oldestMessage = this.activeMessages[0];
+            this.removeMessage(oldestMessage.element);
+        }
     }
 }
 
