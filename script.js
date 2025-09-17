@@ -300,7 +300,7 @@ class KakaoMessageSystem {
 
     showMessage(senderName, message, type) {
         const messageElement = document.createElement('div');
-        messageElement.className = 'kakao-message mb-2 w-full max-w-xs sm:max-w-sm mx-auto px-2 sm:px-0';
+        messageElement.className = 'kakao-message mb-3 w-full max-w-xs sm:max-w-sm mx-auto px-2 sm:px-0';
         
         // 메시지 타입에 따른 색상 (조화로운 색상 팔레트)
         let bgColor = 'bg-blue-600';
@@ -323,7 +323,7 @@ class KakaoMessageSystem {
                 </div>
                 <div class="flex flex-col flex-1 min-w-0">
                     <div class="text-xs text-gray-300 mb-1 font-medium">${senderName}</div>
-                    <div class="${bgColor} text-white px-3 py-2 sm:px-4 sm:py-3 rounded-2xl rounded-bl-md text-xs sm:text-sm break-keep shadow-lg w-fit max-w-full">
+                    <div class="${bgColor} text-white px-3 py-2 sm:px-4 sm:py-3 rounded-2xl rounded-bl-md text-xs sm:text-sm break-keep shadow-lg w-fit max-w-full overflow-visible">
                         ${message}
                     </div>
                 </div>
