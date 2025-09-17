@@ -201,42 +201,54 @@ class KakaoMessageSystem {
             '삼성물산', '현대건설', 'SK건설', 'LG유플러스', 'KT&G'
         ];
         
-        // 메시지 템플릿들
+        // 메시지 템플릿들 (일상적이지만 뇌해킹하는 메시지들)
         this.messageTemplates = [
             {
-                type: 'contract_request',
+                type: 'daily_work',
                 messages: [
-                    '대표님, {company}에서 계약 요청 왔습니다!',
-                    '대표님, {company} 프로젝트 문의 들어왔어요',
-                    '대표님, {company}에서 협업 제안 왔습니다',
-                    '대표님, {company} 계약서 검토 요청입니다',
-                    '대표님, {company} 신규 프로젝트 제안서 도착',
-                    '대표님, {company} 긴급 계약 논의 요청',
-                    '대표님, {company} 파트너십 제안 왔습니다'
+                    '대표님, 오늘도 {company} 출근하셨어요?',
+                    '대표님, {company}에서 또 바쁘게 일하고 계시죠?',
+                    '대표님, {company} 프로젝트 잘 진행되고 있나요?',
+                    '대표님, {company}에서 오늘도 수고 많으셨어요',
+                    '대표님, {company} 팀원들 모두 대표님 기다리고 있어요',
+                    '대표님, {company}에서 대표님 없으면 안 된다고 하네요',
+                    '대표님, {company} 고객들이 대표님 만나고 싶어해요'
                 ]
             },
             {
-                type: 'performance_bonus',
+                type: 'identity_reminder',
                 messages: [
-                    '대표님, 오늘 계약 성과금 입금했습니다!',
-                    '대표님, 이번 달 성과금 정산 완료했습니다',
-                    '대표님, 프로젝트 완료 보너스 입금했습니다',
-                    '대표님, 계약 수수료 정산 완료했습니다',
-                    '대표님, 월말 인센티브 지급 완료',
-                    '대표님, 특별 성과 보상금 입금',
-                    '대표님, 분기별 보너스 정산 완료'
+                    '대표님, 거기서 프리랜서인데 기업 대표인 건 알아요?',
+                    '대표님, 사실 진짜 대표님이잖아요 ㅋㅋ',
+                    '대표님, 프리랜서라고 하지만 실제로는 CEO잖아요',
+                    '대표님, {company}에서도 대표님으로 불리잖아요',
+                    '대표님, 프리랜서는 겉모습이고 진짜는 대표님',
+                    '대표님, {company} 직원들도 대표님이라고 부르잖아요',
+                    '대표님, 어디 가든 대표님 맞잖아요'
                 ]
             },
             {
-                type: 'general',
+                type: 'success_reminder',
                 messages: [
-                    '대표님, 오늘도 수고하셨습니다!',
-                    '대표님, 내일 미팅 준비 완료했습니다',
-                    '대표님, 고객 만족도 조사 결과 좋습니다',
-                    '대표님, 새로운 프로젝트 제안서 작성했습니다',
-                    '대표님, 주간 보고서 작성 완료했습니다',
-                    '대표님, 고객사 피드백 매우 긍정적입니다',
-                    '대표님, 팀 전체 성과가 좋습니다'
+                    '대표님, 오늘도 성공하셨어요!',
+                    '대표님, 또 돈 들어왔네요 ㅋㅋ',
+                    '대표님, 계속 잘 되고 있어요',
+                    '대표님, 오늘도 대박이에요',
+                    '대표님, 돈이 계속 들어오네요',
+                    '대표님, 성공하는 게 당연해요',
+                    '대표님, 오늘도 부자 되셨어요'
+                ]
+            },
+            {
+                type: 'casual_chat',
+                messages: [
+                    '대표님, 오늘도 수고하셨어요!',
+                    '대표님, 커피 한 잔 하세요',
+                    '대표님, 오늘 날씨 좋네요',
+                    '대표님, 점심 맛있게 드셨어요?',
+                    '대표님, 오늘도 좋은 하루 보내세요',
+                    '대표님, 퇴근 후에도 바쁘시겠어요',
+                    '대표님, 주말에도 일하시나요?'
                 ]
             }
         ];
@@ -281,10 +293,14 @@ class KakaoMessageSystem {
         
         // 메시지 타입에 따른 색상
         let bgColor = 'bg-blue-500';
-        if (type === 'contract_request') {
+        if (type === 'daily_work') {
+            bgColor = 'bg-blue-500';
+        } else if (type === 'identity_reminder') {
+            bgColor = 'bg-purple-500';
+        } else if (type === 'success_reminder') {
             bgColor = 'bg-green-500';
-        } else if (type === 'performance_bonus') {
-            bgColor = 'bg-yellow-500';
+        } else if (type === 'casual_chat') {
+            bgColor = 'bg-gray-600';
         }
         
         messageElement.innerHTML = `
