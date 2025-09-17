@@ -52,10 +52,10 @@
 </head>
 <body class="font-kakao bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white h-screen overflow-hidden relative">
     <div class="h-screen flex flex-col justify-center items-center relative px-5 pt-20 sm:pt-0">
-        <!-- 고정된 메신저 영역 (절대 위치로 고정) -->
-        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-full max-w-sm sm:max-w-md" style="margin-top: -80px; height: 160px; pointer-events: none;">
-            <div id="kakao-messages" style="display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; overflow: hidden;">
-                <!-- 카톡 메시지들이 여기에 동적으로 추가됩니다 (고정 영역 내에서만) -->
+        <!-- 고정된 메신저 영역 (잔액 박스 바로 위에만) -->
+        <div class="relative z-10 mb-4 w-full max-w-sm sm:max-w-md" style="height: 120px; overflow: hidden;">
+            <div id="kakao-messages" style="display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%;">
+                <!-- 카톡 메시지들이 여기에 동적으로 추가됩니다 (잔액 박스 위에서만) -->
             </div>
         </div>
 
