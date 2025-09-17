@@ -1,0 +1,437 @@
+// Tailwind CSS와 연동된 고급 입금 메시지 시스템
+class AdvancedIncomeMessageSystem {
+    constructor() {
+        this.messages = document.querySelectorAll('.income-message');
+        this.currentIndex = 0;
+        this.interval = null;
+        this.depositCount = 0;
+        this.depositCountElement = document.getElementById('deposit-count');
+        
+        // 다양한 입금 금액 배열 (더 많은 변수)
+        this.depositAmounts = [
+            '₩5,000,000', '₩12,000,000', '₩3,800,000',
+            '₩8,500,000', '₩15,200,000', '₩7,300,000',
+            '₩22,000,000', '₩4,700,000', '₩18,900,000',
+            '₩6,400,000', '₩25,000,000', '₩9,100,000',
+            '₩13,500,000', '₩3,200,000', '₩19,800,000',
+            '₩11,700,000', '₩7,600,000', '₩16,300,000',
+            '₩4,900,000', '₩21,400,000', '₩8,800,000',
+            '₩14,200,000', '₩5,500,000', '₩17,600,000'
+        ];
+        
+        this.init();
+    }
+
+    init() {
+        // 첫 번째 메시지를 활성화
+        this.showMessage(0);
+        
+        // 더 빠른 속도로 메시지 변경 (1.5초마다)
+        this.startRotation();
+        
+        // 입금 카운터 업데이트
+        this.updateDepositCounter();
+    }
+
+    showMessage(index) {
+        // 모든 메시지에서 opacity-100 클래스 제거하고 opacity-0 추가
+        this.messages.forEach(message => {
+            message.classList.remove('opacity-100');
+            message.classList.add('opacity-0');
+        });
+
+        // 선택된 메시지에 opacity-100 클래스 추가하고 opacity-0 제거
+        if (this.messages[index]) {
+            this.messages[index].classList.remove('opacity-0');
+            this.messages[index].classList.add('opacity-100');
+            
+            // 랜덤 금액으로 업데이트
+            this.updateRandomAmount(this.messages[index]);
+        }
+    }
+
+    updateRandomAmount(messageElement) {
+        const amountElement = messageElement.querySelector('.text-kakao-yellow');
+        if (amountElement) {
+            const randomAmount = this.depositAmounts[Math.floor(Math.random() * this.depositAmounts.length)];
+            amountElement.textContent = randomAmount;
+        }
+    }
+
+    nextMessage() {
+        this.currentIndex = (this.currentIndex + 1) % this.messages.length;
+        this.showMessage(this.currentIndex);
+        
+        // 입금 카운터 증가
+        this.depositCount++;
+        this.updateDepositCounter();
+    }
+
+    updateDepositCounter() {
+        if (this.depositCountElement) {
+            this.depositCountElement.textContent = this.depositCount;
+        }
+    }
+
+    startRotation() {
+        this.interval = setInterval(() => {
+            this.nextMessage();
+        }, 1500); // 1.5초마다 변경 (더 빠르게!)
+    }
+
+    stopRotation() {
+        if (this.interval) {
+            clearInterval(this.interval);
+            this.interval = null;
+        }
+    }
+
+    // 더 빠른 모드로 전환
+    enableTurboMode() {
+        this.stopRotation();
+        this.interval = setInterval(() => {
+            this.nextMessage();
+        }, 800); // 0.8초마다 변경 (터보 모드!)
+    }
+
+    // 일반 모드로 전환
+    enableNormalMode() {
+        this.stopRotation();
+        this.interval = setInterval(() => {
+            this.nextMessage();
+        }, 1500); // 1.5초마다 변경
+    }
+}
+
+// 실시간 잔액 업데이트 시스템
+class BalanceUpdater {
+    constructor() {
+        // 초기 잔액 변수들 (6가지)
+        this.initialBalances = [
+            2120000000, // 21억 2천만원
+            1850000000, // 18억 5천만원
+            2340000000, // 23억 4천만원
+            1980000000, // 19억 8천만원
+            2670000000, // 26억 7천만원
+            1760000000  // 17억 6천만원
+        ];
+        
+        // 랜덤하게 초기 잔액 선택
+        this.baseBalance = this.initialBalances[Math.floor(Math.random() * this.initialBalances.length)];
+        this.currentBalance = this.baseBalance;
+        this.balanceElement = document.getElementById('balance-amount');
+        this.balanceTextElement = document.getElementById('balance-korean');
+        this.init();
+    }
+
+    init() {
+        this.updateBalanceDisplay();
+        this.startBalanceUpdates();
+    }
+
+    updateBalanceDisplay() {
+        if (this.balanceElement) {
+            this.balanceElement.textContent = `₩${this.currentBalance.toLocaleString()}`;
+        }
+        
+        // 한글 표시도 업데이트
+        if (this.balanceTextElement) {
+            const koreanAmount = this.formatKoreanAmount(this.currentBalance);
+            this.balanceTextElement.textContent = `(${koreanAmount})`;
+        }
+    }
+
+    // 숫자를 한글로 변환하는 함수
+    formatKoreanAmount(amount) {
+        const units = ['', '만', '억', '조'];
+        const unitValues = [1, 10000, 100000000, 1000000000000];
+        
+        let result = '';
+        let remaining = amount;
+        
+        for (let i = unitValues.length - 1; i >= 0; i--) {
+            if (remaining >= unitValues[i]) {
+                const value = Math.floor(remaining / unitValues[i]);
+                if (value > 0) {
+                    result += value + units[i];
+                    remaining -= value * unitValues[i];
+                }
+            }
+        }
+        
+        return result + ' 원';
+    }
+
+    startBalanceUpdates() {
+        // 3초마다 잔액을 약간씩 증가
+        setInterval(() => {
+            const randomIncrease = Math.floor(Math.random() * 1000000) + 500000; // 50만~150만원 증가
+            this.currentBalance += randomIncrease;
+            this.updateBalanceDisplay();
+        }, 3000);
+    }
+}
+
+// 카톡 메시지 시스템
+class KakaoMessageSystem {
+    constructor() {
+        this.messagesContainer = document.getElementById('kakao-messages');
+        this.messageQueue = [];
+        this.isDisplaying = false;
+        
+        // 직원 이름들
+        this.employeeNames = [
+            '김민수', '이지은', '박준호', '최수진', '정현우',
+            '한소영', '강태현', '윤서연', '임동혁', '조미래'
+        ];
+        
+        // 회사 이름들
+        this.companyNames = [
+            '삼성전자', 'LG전자', '네이버', '카카오', '현대자동차',
+            'SK하이닉스', '포스코', 'KT', 'CJ', '롯데'
+        ];
+        
+        // 메시지 템플릿들
+        this.messageTemplates = [
+            {
+                type: 'contract_request',
+                messages: [
+                    '대표님, {company}에서 계약 요청 왔습니다!',
+                    '대표님, {company} 프로젝트 문의 들어왔어요',
+                    '대표님, {company}에서 협업 제안 왔습니다',
+                    '대표님, {company} 계약서 검토 요청입니다'
+                ]
+            },
+            {
+                type: 'performance_bonus',
+                messages: [
+                    '대표님, 오늘 계약 성과금 입금했습니다!',
+                    '대표님, 이번 달 성과금 정산 완료했습니다',
+                    '대표님, 프로젝트 완료 보너스 입금했습니다',
+                    '대표님, 계약 수수료 정산 완료했습니다'
+                ]
+            },
+            {
+                type: 'general',
+                messages: [
+                    '대표님, 오늘도 수고하셨습니다!',
+                    '대표님, 내일 미팅 준비 완료했습니다',
+                    '대표님, 고객 만족도 조사 결과 좋습니다',
+                    '대표님, 새로운 프로젝트 제안서 작성했습니다'
+                ]
+            }
+        ];
+        
+        this.init();
+    }
+
+    init() {
+        // 5초 후부터 메시지 시작
+        setTimeout(() => {
+            this.startMessageSystem();
+        }, 5000);
+    }
+
+    startMessageSystem() {
+        // 8-15초마다 새로운 메시지 생성
+        setInterval(() => {
+            this.generateMessage();
+        }, 8000 + Math.random() * 7000);
+    }
+
+    generateMessage() {
+        const template = this.messageTemplates[Math.floor(Math.random() * this.messageTemplates.length)];
+        const messageText = template.messages[Math.floor(Math.random() * template.messages.length)];
+        const employeeName = this.employeeNames[Math.floor(Math.random() * this.employeeNames.length)];
+        const companyName = this.companyNames[Math.floor(Math.random() * this.companyNames.length)];
+        
+        // 템플릿 변수 치환
+        const finalMessage = messageText.replace('{company}', companyName);
+        
+        this.showMessage(employeeName, finalMessage, template.type);
+    }
+
+    showMessage(senderName, message, type) {
+        const messageElement = document.createElement('div');
+        messageElement.className = 'kakao-message mb-3 max-w-xs mx-auto';
+        
+        // 메시지 타입에 따른 색상
+        let bgColor = 'bg-blue-500';
+        if (type === 'contract_request') {
+            bgColor = 'bg-green-500';
+        } else if (type === 'performance_bonus') {
+            bgColor = 'bg-yellow-500';
+        }
+        
+        messageElement.innerHTML = `
+            <div class="flex items-end space-x-2">
+                <div class="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center text-xs font-bold text-white">
+                    ${senderName.charAt(0)}
+                </div>
+                <div class="flex flex-col">
+                    <div class="text-xs text-gray-400 mb-1">${senderName}</div>
+                    <div class="${bgColor} text-white px-4 py-2 rounded-2xl rounded-bl-md text-sm break-keep shadow-lg">
+                        ${message}
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // 애니메이션 효과
+        messageElement.style.opacity = '0';
+        messageElement.style.transform = 'translateY(20px)';
+        this.messagesContainer.appendChild(messageElement);
+        
+        // 페이드 인 애니메이션
+        setTimeout(() => {
+            messageElement.style.transition = 'all 0.3s ease-out';
+            messageElement.style.opacity = '1';
+            messageElement.style.transform = 'translateY(0)';
+        }, 100);
+        
+        // 5초 후 페이드 아웃
+        setTimeout(() => {
+            messageElement.style.transition = 'all 0.3s ease-out';
+            messageElement.style.opacity = '0';
+            messageElement.style.transform = 'translateY(-20px)';
+            
+            setTimeout(() => {
+                if (messageElement.parentNode) {
+                    messageElement.parentNode.removeChild(messageElement);
+                }
+            }, 300);
+        }, 5000);
+    }
+}
+
+// 페이지 로드 시 시스템 초기화
+document.addEventListener('DOMContentLoaded', function() {
+    // 고급 입금 메시지 시스템 초기화
+    const messageSystem = new AdvancedIncomeMessageSystem();
+    
+    // 잔액 업데이트 시스템 초기화
+    const balanceUpdater = new BalanceUpdater();
+    
+    // 카톡 메시지 시스템 초기화
+    const kakaoMessageSystem = new KakaoMessageSystem();
+
+    // 페이지 가시성 변경 시 애니메이션 제어
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            messageSystem.stopRotation();
+        } else {
+            messageSystem.startRotation();
+        }
+    });
+
+    // 추가 배경 애니메이션 요소 생성
+    createFloatingElements();
+
+    // 터치 이벤트로 모드 전환
+    let touchCount = 0;
+    let lastTouchTime = 0;
+
+    document.addEventListener('touchstart', function(e) {
+        const currentTime = Date.now();
+        
+        if (currentTime - lastTouchTime < 500) {
+            touchCount++;
+        } else {
+            touchCount = 1;
+        }
+        
+        lastTouchTime = currentTime;
+        
+        // 3번 빠르게 터치하면 터보 모드
+        if (touchCount >= 3) {
+            messageSystem.enableTurboMode();
+            touchCount = 0;
+            
+            // 10초 후 일반 모드로 복귀
+            setTimeout(() => {
+                messageSystem.enableNormalMode();
+            }, 10000);
+        }
+    });
+
+    // 키보드 이벤트 (데스크톱에서 테스트용)
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+            messageSystem.nextMessage();
+        } else if (e.key === 't' || e.key === 'T') {
+            // T키로 터보 모드 토글
+            if (messageSystem.interval && messageSystem.interval._intervalId) {
+                messageSystem.enableNormalMode();
+            } else {
+                messageSystem.enableTurboMode();
+            }
+        }
+    });
+});
+
+// 추가 배경 애니메이션 요소 생성
+function createFloatingElements() {
+    const backgroundAnimation = document.querySelector('.absolute.top-0.left-0');
+    
+    // 더 많은 떠다니는 요소들 생성
+    for (let i = 0; i < 8; i++) {
+        const element = document.createElement('div');
+        element.className = 'absolute w-1 h-1 bg-kakao-yellow/60 rounded-full animate-float';
+        element.style.top = Math.random() * 100 + '%';
+        element.style.left = Math.random() * 100 + '%';
+        element.style.animationDelay = Math.random() * 8 + 's';
+        element.style.animationDuration = (6 + Math.random() * 8) + 's';
+        
+        // 랜덤 크기
+        const size = 1 + Math.random() * 3;
+        element.style.width = size + 'px';
+        element.style.height = size + 'px';
+        
+        backgroundAnimation.appendChild(element);
+    }
+}
+
+// 터치 이벤트로 메시지 수동 변경
+let touchStartY = 0;
+let touchEndY = 0;
+
+document.addEventListener('touchstart', function(e) {
+    touchStartY = e.changedTouches[0].screenY;
+});
+
+document.addEventListener('touchend', function(e) {
+    touchEndY = e.changedTouches[0].screenY;
+    handleSwipe();
+});
+
+function handleSwipe() {
+    const swipeThreshold = 50;
+    const diff = touchStartY - touchEndY;
+    
+    if (Math.abs(diff) > swipeThreshold) {
+        // 위로 스와이프 시 다음 메시지로
+        if (diff > 0) {
+            const activeMessage = document.querySelector('.income-message.opacity-100');
+            const nextMessage = activeMessage.nextElementSibling || 
+                               document.querySelector('.income-message');
+            
+            activeMessage.classList.remove('opacity-100');
+            activeMessage.classList.add('opacity-0');
+            nextMessage.classList.remove('opacity-0');
+            nextMessage.classList.add('opacity-100');
+        }
+    }
+}
+
+// 모바일에서 더 나은 터치 경험을 위한 추가 이벤트
+document.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+}, { passive: false });
+
+// 화면 회전 시 레이아웃 조정
+window.addEventListener('orientationchange', function() {
+    setTimeout(function() {
+        // 화면 회전 후 잠시 대기 후 레이아웃 재조정
+        window.scrollTo(0, 0);
+    }, 100);
+});
