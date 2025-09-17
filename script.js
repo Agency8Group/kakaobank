@@ -275,10 +275,10 @@ class KakaoMessageSystem {
     }
 
     startMessageSystem() {
-        // 3-6초마다 새로운 메시지 생성 (더 자주)
+        // 4-7초마다 새로운 메시지 생성 (깜빡거림 방지)
         setInterval(() => {
             this.generateMessage();
-        }, 3000 + Math.random() * 3000);
+        }, 4000 + Math.random() * 3000);
     }
 
     generateMessage() {
@@ -330,18 +330,18 @@ class KakaoMessageSystem {
             </div>
         `;
         
-        // 메시지가 위에서 아래로 내려오는 애니메이션 (잔액 위에 누적)
+        // 메시지가 부드럽게 나타나는 애니메이션
         messageElement.style.opacity = '0';
-        messageElement.style.transform = 'translateY(-50px) scale(0.8)';
-        messageElement.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        messageElement.style.transform = 'translateY(-30px) scale(0.95)';
+        messageElement.style.transition = 'all 0.3s ease-out';
         
         this.messagesContainer.appendChild(messageElement);
         
-        // 위에서 아래로 내려오는 애니메이션
-        setTimeout(() => {
+        // 부드러운 페이드 인 애니메이션
+        requestAnimationFrame(() => {
             messageElement.style.opacity = '1';
             messageElement.style.transform = 'translateY(0) scale(1)';
-        }, 50);
+        });
         
         // 활성 메시지 목록에 추가
         this.activeMessages.push({
@@ -349,17 +349,17 @@ class KakaoMessageSystem {
             timestamp: Date.now()
         });
         
-        // 8초 후 페이드 아웃 (더 오래 머물도록)
+        // 10초 후 페이드 아웃 (안정적인 표시 시간)
         setTimeout(() => {
             this.removeMessage(messageElement);
-        }, 8000);
+        }, 10000);
     }
     
     removeMessage(messageElement) {
-        // 페이드 아웃 애니메이션 (위로 올라가며 사라짐)
-        messageElement.style.transition = 'all 0.3s ease-out';
+        // 부드러운 페이드 아웃 애니메이션
+        messageElement.style.transition = 'all 0.25s ease-in';
         messageElement.style.opacity = '0';
-        messageElement.style.transform = 'translateY(-30px) scale(0.9)';
+        messageElement.style.transform = 'translateY(-20px) scale(0.95)';
         
         setTimeout(() => {
             if (messageElement.parentNode) {
@@ -368,7 +368,7 @@ class KakaoMessageSystem {
             
             // 활성 메시지 목록에서 제거
             this.activeMessages = this.activeMessages.filter(msg => msg.element !== messageElement);
-        }, 300);
+        }, 250);
     }
     
     removeOldestMessage() {
